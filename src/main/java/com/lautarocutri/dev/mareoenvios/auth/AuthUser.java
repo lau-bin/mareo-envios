@@ -48,6 +48,6 @@ public class AuthUser {
 
 	public enum Role {
 		ADMIN,
-		USER;
+		USER
 	}
 }
