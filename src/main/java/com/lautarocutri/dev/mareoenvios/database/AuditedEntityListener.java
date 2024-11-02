@@ -18,12 +18,6 @@ public class AuditedEntityListener {
 		entity.setUserCreationId(UUID.fromString(getCurrentUsername()));
 	}
 
-	@PreUpdate
-	public void setUpdateInfo(AuditedEntity entity) {
-		entity.setTimestampCreation(LocalDateTime.now(ZoneOffset.UTC));
-		entity.setUserCreationId(UUID.fromString(getCurrentUsername()));
-	}
-
 	@PreRemove
 	public void setDeletionInfo(AuditedEntity entity) {
 		entity.setTimestampDeletion(LocalDateTime.now(ZoneOffset.UTC));
@@ -35,6 +29,6 @@ public class AuditedEntityListener {
 		if (authentication != null && authentication.isAuthenticated()) {
 			return authentication.getName();
 		}
-		return "anonymous";
+		throw new IllegalStateException("Anonymous operations are not allowed");
 	}
 }
