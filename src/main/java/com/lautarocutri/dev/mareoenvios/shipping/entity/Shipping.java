@@ -1,4 +1,6 @@
-package com.lautarocutri.dev.mareoenvios.customer.entity;
+package com.lautarocutri.dev.mareoenvios.shipping.entity;
+
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,25 +21,37 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-public class Customer extends AuditedEntity {
+public class Shipping extends AuditedEntity {
+
+	@NotNull
+	@Column(nullable = false)
+	private Integer customerId;
 
 	@NotNull
 	@NonNull
-	@Column(nullable = false, length = DBConst.DB_STRING_LENGTH)
-	private String firstName;
+	@Column(nullable = false, length = DBConst.DB_ENUM_LENGTH)
+	private State state;
 
 	@NotNull
 	@NonNull
-	@Column(nullable = false, length = DBConst.DB_STRING_LENGTH)
-	private String lastName;
+	@Column(nullable = false)
+	private LocalDate sendDate;
 
 	@NotNull
 	@NonNull
-	@Column(nullable = false, length = DBConst.DB_STRING_LENGTH)
-	private String address;
+	@Column(nullable = false)
+	private LocalDate arriveDate;
 
 	@NotNull
 	@NonNull
-	@Column(nullable = false, length = DBConst.DB_STRING_LENGTH)
-	private String city;
+	@Column(nullable = false)
+	private Integer priority;
+
+	public enum State {
+		INITIAL,
+		DELIVERED,
+		DELIVERED_TO_POST_OFFICE,
+		CANCELED,
+		IN_TRANSIT
+	}
 }

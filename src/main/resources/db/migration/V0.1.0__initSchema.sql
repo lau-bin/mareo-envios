@@ -13,7 +13,7 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE Customer_AUD (
-	id                 SERIAL       NOT NULL,
+	id                 INTEGER       NOT NULL,
 	REV                INTEGER      NOT NULL,
 	REVTYPE            SMALLINT,
 	timestamp_creation TIMESTAMP    NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE Shipping (
 	timestamp_deletion TIMESTAMP,
 	version            BIGINT       NOT NULL,
 	customer_id        INT          NOT NULL,
-	state              VARCHAR(255) NOT NULL,
+	state              VARCHAR(50) NOT NULL,
 	send_date          DATE         NOT NULL,
 	arrive_date        DATE         NOT NULL,
 	priority           INT          NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE Shipping (
 );
 
 CREATE TABLE Shipping_AUD (
-	id                 SERIAL       NOT NULL,
+	id                 INTEGER       NOT NULL,
 	REV                INTEGER      NOT NULL,
 	REVTYPE            SMALLINT,
 	timestamp_creation TIMESTAMP    NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE Shipping_Item (
 );
 
 CREATE TABLE Shipping_Item_AUD (
-	id                 SERIAL    NOT NULL,
+	id                 INTEGER    NOT NULL,
 	REV                INTEGER   NOT NULL,
 	REVTYPE            SMALLINT,
 	timestamp_creation TIMESTAMP NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE Product (
 );
 
 CREATE TABLE Product_AUD (
-	id                 SERIAL           NOT NULL,
+	id                 INTEGER           NOT NULL,
 	REV                INTEGER          NOT NULL,
 	REVTYPE            SMALLINT,
 	timestamp_creation TIMESTAMP        NOT NULL,
