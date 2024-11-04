@@ -40,7 +40,7 @@ Welcome to **Mareo Envíos**, a Spring Boot application designed to provide a di
 
 2. **Build the Project**
    ```bash
-   mvn clean package
+   mvn clean verify
    ```
 
 3. **Run Docker Compose**
