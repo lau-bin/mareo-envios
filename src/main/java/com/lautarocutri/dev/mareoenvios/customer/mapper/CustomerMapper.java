@@ -1,9 +1,8 @@
 package com.lautarocutri.dev.mareoenvios.customer.mapper;
 
-import java.util.List;
-
 import com.lautarocutri.dev.mareoenvios.customer.entity.Customer;
 import com.lautarocutri.dev.mareoenvios.customer.jax.CustomerJax;
+import com.lautarocutri.dev.mareoenvios.customer.jax.CustomerSaveJax;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 
@@ -13,6 +12,5 @@ import org.mapstruct.NullValueCheckStrategy;
 )
 public interface CustomerMapper {
 	CustomerJax toDto(Customer customerEntity);
-
-	List<CustomerJax> toDtoList(List<Customer> userEntities);
+	Customer toEntity(CustomerSaveJax customerJax);
 }

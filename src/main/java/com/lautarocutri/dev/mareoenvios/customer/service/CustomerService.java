@@ -6,7 +6,6 @@ import java.util.stream.StreamSupport;
 
 import com.lautarocutri.dev.mareoenvios.customer.entity.Customer;
 import com.lautarocutri.dev.mareoenvios.customer.jax.CustomerJax;
-import com.lautarocutri.dev.mareoenvios.customer.jax.CustomerSaveJax;
 import com.lautarocutri.dev.mareoenvios.customer.mapper.CustomerMapper;
 import com.lautarocutri.dev.mareoenvios.customer.repo.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,35 +18,30 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+
 	@Autowired
 	private CustomerMapper customerMapper;
 
 	public List<CustomerJax> getAllCustomers() {
-		var customerList = StreamSupport.stream(customerRepository.findAll().spliterator(), false)
+		return StreamSupport.stream(customerRepository.findAll().spliterator(), false)
+				.map(customer -> customerMapper.toDto(customer))
 				.collect(Collectors.toList());
-		return customerMapper.toDtoList(customerList);
 	}
 
 	public List<CustomerJax> getAllCustomersByNameAndLastName(String name, String lastName) {
-		var customerList = StreamSupport.stream(
+		return StreamSupport.stream(
 						customerRepository.findAllByFirstNameAndLastName(name, lastName).spliterator(),
 						false)
+				.map(customer -> customerMapper.toDto(customer))
 				.collect(Collectors.toList());
-		return customerMapper.toDtoList(customerList);
 	}
 
 	public CustomerJax getCustomerById(Integer Id) {
-		var customer = customerRepository.findById(Id).orElseThrow(() -> new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Customer not found"));
-		return customerMapper.toDto(customer);
+		return customerMapper.toDto(customerRepository.findById(Id).orElseThrow(() -> new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Customer not found")));
 	}
 
-	public CustomerJax createCustomer(CustomerSaveJax customer) {
-		return customerMapper.toDto(customerRepository.save(Customer.createNew(
-				customer.getFirstName(),
-				customer.getLastName(),
-				customer.getAddress(),
-				customer.getCity()
-		)));
+	public CustomerJax createCustomer(Customer customer) {
+		return customerMapper.toDto(customerRepository.save(customer));
 	}
 }
