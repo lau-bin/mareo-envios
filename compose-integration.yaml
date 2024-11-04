@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db_integration:
+    image: 'postgres:17'
+    ports:
+      - '5432:5432'
+    networks:
+      - app-network
+  integration:
+    image: build-image
+    command: ./mvnw verify -DskipTests
+    depends_on:
+      - db_integration
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

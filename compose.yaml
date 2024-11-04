@@ -1,25 +1,32 @@
+version: '3.8'
+
 services:
-  db:
+  db_prod:
     image: 'postgres:17'
     environment:
-      - 'POSTGRES_DB=testdb'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      - POSTGRES_DB=proddb
+      - POSTGRES_PASSWORD=a4y56ubvs4t4ybe5tDzBGR43
+      - POSTGRES_USER=myuser
     ports:
       - '5432:5432'
     networks:
       - app-network
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data-prod-mareo_envios:/var/lib/postgresql/data
   app:
-    image: build-image
-    command: ./mvnw verify -DskipTests
+    image: mareo_envios:0.0.1-snapshot # TODO tag latest image in pom.xml
+    environment:
+      - DB_URL=jdbc:postgresql://db_prod:5432/proddb
+      - DB_USER=myuser
+      - DB_PASSWORD=a4y56ubvs4t4ybe5tDzBGR43
     depends_on:
-      - db
+      - db_prod
+    ports:
+      - '8080:8080'
     networks:
       - app-network
 networks:
   app-network:
     driver: bridge
 volumes:
-  db-data:
+  db-data-prod-mareo_envios:

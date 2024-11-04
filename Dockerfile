@@ -16,20 +16,19 @@ RUN ./mvnw dependency:go-offline -B
 COPY src ./src
 
 ENV MAVEN_OPTS="-Dskip.docker.build=true"
-ENV DATABASE_URL="jdbc:postgresql://db:5432/testdb"
+
 RUN ./mvnw package -DskipTests
 
 # Stage 2: Use a lighter image to run the application
 FROM eclipse-temurin:11-jre-alpine AS final
 
 ARG APP_NAME
-ENV APP_PATH="/app/${APP_NAME}.jar"
 
 # Copy the native executable from the builder stage
-COPY --from=build-image /app/target/${APP_NAME}.jar ${APP_PATH}
+COPY --from=build-image /app/target/${APP_NAME}.jar /app/app.jar
 
 # Expose port 8080
 EXPOSE 8080
 
 # Run the native executable
-ENTRYPOINT ["java", "-Xms512m", "-Xmx1g", "-XX:+UseContainerSupport", "-jar", "${APP_PATH}"]
+ENTRYPOINT ["java", "-Xms512m", "-Xmx1g", "-XX:+UseContainerSupport", "-jar", "/app/app.jar"]

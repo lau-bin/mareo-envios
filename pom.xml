@@ -40,6 +40,11 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>com.github.stateless4j</groupId>
+			<artifactId>stateless4j</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.5.3.Final</version>
@@ -298,6 +303,8 @@
 							<skip>${skip.docker.build}</skip>
 							<executable>docker-compose</executable>
 							<arguments>
+								<argument>-f</argument>
+								<argument>compose-integration.yaml</argument>
 								<argument>up</argument>
 								<argument>-d</argument>
 							</arguments>
